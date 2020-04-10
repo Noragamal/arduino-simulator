@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Arduino Simualator</title>
+    <link rel="stylesheet" href="css/main.css">
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+          box-sizing: border-box;
+        }
+        
+        body {
+          margin: 0;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+        /* #canvas { */
+            /* margin: 20px;
+            padding: 20px;
+            background: #ffffff;
+            border: thin inset #aaaaaa; */
+            /* width: window.innerWidth;
+            height: 1000px;
+         } */
+        
+        /* Style the side navigation */
+        .sidenav {
+          height: 100%;
+          width: 200px;
+          position: fixed;
+          z-index: 1;
+          top: 0;
+          left: 0;
+          background-color: white;
+          overflow-x: hidden;
+        }
+        
+        
+        /* Side navigation links */
+        .sidenav a {
+          color: white;
+          padding: 16px;
+          text-decoration: none;
+          display: block;
+        }
+        
+        /* Change color on hover */
+        .sidenav a:hover {
+          background-color: #ddd;
+          color: white;
+        }
+        
+        /* Style the content */
+        .content {
+          margin-left: 200px;
+          padding-left: 20px;
+        }
+        /* .arduino {
+  width: 25%;
+  height: 25%;
+} */
+        </style>
+</head>
+<body>
+     <script src ="https://cdnjs.cloudflare.com/ajax/libs/three.js/102/three.js"> </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js"></script> 
+    
+    <!-- <script src="https://unpkg.com/three@0.87.1/build/three.js"></script> -->
+    <script src="https://unpkg.com/three@0.87.1/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://unpkg.com/three@0.87.1/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="fabric.js"></script>
+    <script src="model.js"></script>
+
+ 
+    <div class="sidenav">
+<h2>Code</h2>
+<p></p>
+
+<form>
+  <textarea declaration="declaration" id= "declaration" rows="5" cols="30"></textarea>
+  <br><br>
+  <p>void setup(){</p>
+  
+    <textarea setup="setup" id="setup" rows="6" cols="30"></textarea>
+
+    <p>}</p>
+    <p>void loop(){</p>
+    <form >
+      <textarea loop="loop" id="loop" rows="6" cols="30"></textarea>
+      <br><br>
+      <input id="button" type="button" name="run" onclick="myFunction();" value="RUN!"/>
+    </form>
+
+</form>
+</div>
+<div class="content"style="position:relative; ">
+    <img src="best.png" id="arduino" style="display:none">
+    <!-- <canvas id="canvas" style="margin: 10px; background:white"></canvas> -->
+    <img src="blue_led.jfif" id="led"style="display:none">
+    <img src="breadboard_base.png" id="breadboard"style="display:none">
+    <canvas id="c" width="500" height="500" style="z-index: 2;
+    position:absolute;
+    left:0px;
+    top:0px;
+    " height="300px" width="400" ></canvas>
+    <canvas id="d" width="500" height="500" style="z-index: 1;
+    position:absolute;
+    left:0px;
+    top:0px;
+    "></canvas>
+
+
+
+
+
+
+</div>
+       
+<script>
+
+var canvass = document.getElementById("c");
+
+canvass.width  = window.innerWidth;
+canvass.height = window.innerHeight;
+ var canvasd = document.getElementById("d");
+
+canvasd.width  = window.innerWidth;
+canvasd.height = window.innerHeight;
+ var ctx = canvasd.getContext("2d");
+  var img = document.getElementById("arduino");
+  var img2 = document.getElementById("led");
+  var img3 = document.getElementById("breadboard");
+ 
+  ctx.drawImage(img, 100, 120,700,500);
+  ctx.drawImage(img2, 170, 20,100,100);
+  ctx.drawImage(img3, 900, 120,600,600);
+
+var pointcounter=0;
+
+
+
+var canvas = new fabric.Canvas('c', { selection: false });
+
+// img.onload = function() {
+//   var imgbase64 = new fabric.Image(img, {
+//     // width: 1000,
+//     //  height: 600
+    
+//   })
+  // img.scaleToHeight(300);
+  // img.scaleToWidth(300);
+//   fabric.Image.fromURL('http://fabricjs.com/assets/pug_small.jpg', function(myImg) {
+//  canvas.add(myImg); 
+// });
+  // canvas.add(img);
+  //canvas.deactivateAll().renderAll();
+
+
+
+
+var line, isDown;
+
+canvas.on('mouse:down', function(o){
+  isDown = true; pointcounter++;
+  console.log(pointcounter);
+  var pointer = canvas.getPointer(o.e);
+  var points = [ pointer.x, pointer.y, pointer.x, pointer.y ];
+  line = new fabric.Line(points, {
+    strokeWidth: 1,
+    fill: 'red',
+    stroke: 'red',
+    originX: 'center',
+    originY: 'center'
+  });
+  if(pointcounter<=3)
+  canvas.add(line);
+});
+
+canvas.on('mouse:move', function(o){
+  if (!isDown) return;
+  var pointer = canvas.getPointer(o.e);
+  line.set({ x2: pointer.x, y2: pointer.y });
+  canvas.renderAll();
+});
+
+canvas.on('mouse:up', function(o){
+  isDown = false;
+});
+// var ctx = canvasd.getContext("2d");
+//   var img = document.getElementById("arduino");
+//   var img2 = document.getElementById("led");
+//   var img3 = document.getElementById("breadboard");
+ 
+//   ctx.drawImage(img, 100, 120,700,500);
+//   ctx.drawImage(img2, 170, 20,100,100);
+//   ctx.drawImage(img3, 900, 120,600,600);
+  
+  
+  
+//    arduino.width=500;
+//    arduino.height=500;
+//    breadboard.width=600;
+//    breadboard.height=600;
+//arduino.visibilty="hidden";
+
+
+//hna line drawing
+//    var canvas = document.getElementById("canvas");
+// var context = canvas.getContext("2d")
+// var context2 = canvas.getContext("2d")
+// var startX = 0;
+// var startY = 0;
+// var startX2 = 0;
+// var startY2 = 0;
+//   function drawDot(event) {
+//       if(dragging && pointcounter==1){
+//       context.clearRect(0,0,canvas.width, canvas.height)
+//       context.beginPath();
+//       context.moveTo(startX, startY);
+//       context.lineTo(event.offsetX, event.offsetY);
+//        context.arc(event.offsetX, event.offsetY,5, 0, Math.PI*2);
+//       context.stroke();
+//       context.closePath();
+//         }
+//         if(dragging && pointcounter==2){
+//       context2.clearRect(0,0,canvas.width, canvas.height)
+//       context2.beginPath();
+//       context2.moveTo(startX2, startY2);
+//       context2.lineTo(event.offsetX, event.offsetY);
+//        context2.arc(event.offsetX, event.offsetY,5, 0, Math.PI*2);
+//       context2.stroke();
+//       context2.closePath();
+//         }
+//     }
+
+//   function engage(event){
+//       pointcounter++;
+//       dragging = true;
+//       if(pointcounter==1){
+//       startX = event.offsetX;
+//       startY = event.offsetY;
+//       }
+//       if(pointcounter==2){
+//         startX2 = event.offsetX;
+//       startY2 = event.offsetY;
+//       }
+
+//   }
+
+//   function disengage(){
+//       dragging = false;
+      
+//   }
+  //end
+  //   var c = document.getElementById("canvas");
+  //};
+         //window.onload = function() {
+
+ // canvas.add(img);
+
+         //};
+// canvas.addEventListener("mousedown",engage);
+// canvas.addEventListener("mouseup",disengage);
+// canvas.addEventListener("mousemove",drawDot,false);
+
+
+ 
+//   var scene = new THREE.Scene();
+
+// var camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000)
+// camera.rotation.y=45/180*Math.PI;
+// camera.position.x=800;
+// camera.position.y=100;
+// camera.position.z = 1000;
+
+// var renderer = new THREE.WebGLRenderer({antialias: true});
+// renderer.setClearColor("#e5e5e5");
+// renderer.setSize(window.innerWidth,window.innerHeight);
+// document.body.appendChild(renderer.domElement);
+//  hlight = new THREE.AmbientLight(0x404040,100)
+// //light.position.set(0,0,0);
+// scene.add(hlight);
+//  directionalLight = new THREE.DirectionalLight(0xffffff,100);
+// directionalLight.position.set(0,1,0);
+// directionalLight.castShadow=true;
+// scene.add(directionalLight);
+
+// light= new THREE.PointLight(0xc4c4c4,10);
+// light.position.set(0,300,500);
+// scene.add(light);
+
+// light2= new THREE.PointLight(0xc4c4c4,10);
+// light2.position.set(500,100,0);
+// scene.add(light2);
+
+// light3= new THREE.PointLight(0xc4c4c4,10);
+// light3.position.set(0,100,-500);
+// scene.add(light3);
+
+// light3= new THREE.PointLight(0xc4c4c4,10);
+// light3.position.set(-500,300,0);
+// scene.add(light3);
+
+
+
+// var render = function() {
+//     requestAnimationFrame(render);
+
+
+//     renderer.render(scene, camera);
+// }
+// //render.physicallyCorrectLights=true;
+//let loader = new THREE.GLTFLoader();
+// loader.load('scene.gltf', function(gltf){
+//   //car = gltf.scene.children[0];
+//   //car.scale.set(0.5,0.5,0.5);
+//   scene.add(gltf.scene);
+//   //animate();
+// });
+
+
+
+
+
+//render();
+    </script>
+
+</body>
+</html>

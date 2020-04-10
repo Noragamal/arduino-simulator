@@ -1,0 +1,14 @@
+canvas { display: block; position: absolute; }
+html { overflow: hidden; background: #000; }
+image{display: hidden;}
+.content {
+    position: relative;
+    width: 400px;
+    height: 300px;
+}
+
+.content canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
