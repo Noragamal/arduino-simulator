@@ -58,10 +58,10 @@
           margin-left: 200px;
           padding-left: 20px;
         }
-        .arduino {
+        /* .arduino {
   width: 25%;
   height: 25%;
-}
+} */
         </style>
 </head>
 <body>
@@ -96,14 +96,21 @@
 
 </form>
 </div>
-<div class="content">
+<div class="content"style="position:relative; ">
     <img src="best.png" id="arduino" style="display:none">
     <!-- <canvas id="canvas" style="margin: 10px; background:white"></canvas> -->
     <img src="blue_led.jfif" id="led"style="display:none">
     <img src="breadboard_base.png" id="breadboard"style="display:none">
-    <canvas id="c" width="500" height="500" style="border:1px solid #ccc"
-    ></canvas>
-    <canvas id="d" width="500" height="500" style="border:1px solid #ccc"></canvas>
+    <canvas id="c" width="500" height="500" style="z-index: 2;
+    position:absolute;
+    left:0px;
+    top:0px;
+    " height="300px" width="400" ></canvas>
+    <canvas id="d" width="500" height="500" style="z-index: 1;
+    position:absolute;
+    left:0px;
+    top:0px;
+    "></canvas>
 
 
 
@@ -118,12 +125,41 @@ var canvass = document.getElementById("c");
 
 canvass.width  = window.innerWidth;
 canvass.height = window.innerHeight;
+ var canvasd = document.getElementById("d");
+
+canvasd.width  = window.innerWidth;
+canvasd.height = window.innerHeight;
+ var ctx = canvasd.getContext("2d");
+  var img = document.getElementById("arduino");
+  var img2 = document.getElementById("led");
+  var img3 = document.getElementById("breadboard");
+ 
+  ctx.drawImage(img, 100, 120,700,500);
+  ctx.drawImage(img2, 170, 20,100,100);
+  ctx.drawImage(img3, 900, 120,600,600);
 
 var pointcounter=0;
 
 
 
 var canvas = new fabric.Canvas('c', { selection: false });
+
+// img.onload = function() {
+//   var imgbase64 = new fabric.Image(img, {
+//     // width: 1000,
+//     //  height: 600
+    
+//   })
+  // img.scaleToHeight(300);
+  // img.scaleToWidth(300);
+//   fabric.Image.fromURL('http://fabricjs.com/assets/pug_small.jpg', function(myImg) {
+//  canvas.add(myImg); 
+// });
+  // canvas.add(img);
+  //canvas.deactivateAll().renderAll();
+
+
+
 
 var line, isDown;
 
@@ -153,14 +189,14 @@ canvas.on('mouse:move', function(o){
 canvas.on('mouse:up', function(o){
   isDown = false;
 });
-var ctx = canvass.getContext("2d");
-  var img = document.getElementById("arduino");
-  var img2 = document.getElementById("led");
-  var img3 = document.getElementById("breadboard");
+// var ctx = canvasd.getContext("2d");
+//   var img = document.getElementById("arduino");
+//   var img2 = document.getElementById("led");
+//   var img3 = document.getElementById("breadboard");
  
-  ctx.drawImage(img, 100, 120,700,500);
-  ctx.drawImage(img2, 170, 20,100,100);
-  ctx.drawImage(img3, 900, 120,600,600);
+//   ctx.drawImage(img, 100, 120,700,500);
+//   ctx.drawImage(img2, 170, 20,100,100);
+//   ctx.drawImage(img3, 900, 120,600,600);
   
   
   
