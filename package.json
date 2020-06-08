@@ -1,0 +1,24 @@
+{
+  "name": "package.json",
+  "version": "1.0.0",
+  "description": "node app",
+  "main": "main.js",
+  "dependencies": {
+    "fritzing-parts-api-client-js": "^0.2.1",
+    "requirejs": "^2.3.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Noragamal/arduino-simulator.git"
+  },
+  "author": "nora",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Noragamal/arduino-simulator/issues"
+  },
+  "homepage": "https://github.com/Noragamal/arduino-simulator#readme"
+}
