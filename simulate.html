@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Arduino Simualator</title>
+    <!-- <div style="background-image: url('Arduino-Background.jpg');"></div>
+     -->
+    <title>Arduino Simulator</title>
     <link rel="stylesheet" href="css/main.css">
-   
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         * {
@@ -16,37 +16,38 @@
         body {
           margin: 0;
           font-family: Arial, Helvetica, sans-serif;
+        
+  background-image: url("images/mmm.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* background opacity: 0.5; */
+ 
         }
-        /* #canvas { */
-            /* margin: 20px;
-            padding: 20px;
-            background: #ffffff;
-            border: thin inset #aaaaaa; */
-            /* width: window.innerWidth;
-            height: 1000px;
-         } */
+       
         
         /* Style the side navigation */
         .sidenav {
           height: 100%;
-          width: 200px;
+          width: 400px;
           position: fixed;
           z-index: 1;
           top: 0;
           left: 0;
-          background-color: white;
+          background-image: url("images/mmm.jpg");
+          
           overflow-x: hidden;
         }
         
         
         /* Side navigation links */
+      
         .sidenav a {
           color: white;
           padding: 16px;
           text-decoration: none;
           display: block;
         }
-        
+  
         /* Change color on hover */
         .sidenav a:hover {
           background-color: #ddd;
@@ -55,28 +56,60 @@
         
         /* Style the content */
         .content {
-          margin-left: 200px;
+          margin-left: 400px;
           padding-left: 20px;
         }
-        /* .arduino {
-  width: 25%;
-  height: 25%;
-} */
+  
         </style>
 </head>
 <body>
      <script src ="https://cdnjs.cloudflare.com/ajax/libs/three.js/102/three.js"> </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js"></script> 
     
+    <!-- <script src="jquery.min.js"></script> -->
     <!-- <script src="https://unpkg.com/three@0.87.1/build/three.js"></script> -->
     <script src="https://unpkg.com/three@0.87.1/examples/js/controls/OrbitControls.js"></script>
     <script src="https://unpkg.com/three@0.87.1/examples/js/loaders/GLTFLoader.js"></script>
     <script src="fabric.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="main.js"></script>
+    <script src="arduino.js"></script>
+    <script src="breadboard.js"></script>
     <script src="model.js"></script>
+    <script src="led_backend.js"></script>
+    <script src="sensor_backend.js"></script>
+    <script src="motion_sensor.js"></script>
+    <script src="led_code.js"></script>
+    <script src="ldr_code.js"></script>
+
 
  
     <div class="sidenav">
-<h2>Code</h2>
+      <div id="container">
+        <div id="bot" class="neutral">
+          <div id="head">
+            <div id="left-ear">
+              <div id="left-ear-inner"></div>
+            </div>
+            <div id="face">
+              <div id="eyes">
+                <div id="left-eye"></div>
+                <div id="right-eye"></div>
+              </div>
+              <div id="mouth"></div>
+            </div>
+            <div id="right-ear">
+              <div id="right-ear-inner"></div>
+            </div>
+          </div>
+        </div>
+        <ul id="switches">
+          <!-- <li class="neutral" onmouseover="setStatus('')"> Neutral </li>
+          <li class="speaking" onmouseover="setStatus('speaking')"> Speaking </li> 
+          <li class="waiting" onmouseover="setStatus('thinking')"> Thinking </li>    -->
+        </ul>
+      </div>
+<h2 style="text-align:center">Code</h2>
 <p></p>
 
 <form>
@@ -91,26 +124,72 @@
     <form >
       <textarea loop="loop" id="loop" rows="6" cols="30"></textarea>
       <br><br>
-      <input id="button" type="button" name="run" onclick="myFunction();" value="RUN!"/>
+      <input id="draw" type="button" name="draw" onclick="draw_line=!draw_line;console.log(draw_line);" value="DRAW!"style="text-align:center"/>
+      <input id="button" type="button" name="run" onclick="myFunction();" value="RUN!"style="text-align:center"/>
+      <input id="light" type="button" name="light" onclick="light_on();" value="LIGHT"style="text-align:center"/>
+      <input id="motion" type="button" name="motion" onclick="motion_on();motion_true();motion2();" value="MOTION"style="text-align:center"/>
+      <!-- <input id="press" type="button" name="press" onclick="button_pressed=!button_pressed;" value="PRESS ME"style="text-align:center"/> -->
+      <br><br>
+      <p style="text-align:center"> Components</p> 
     </form>
-
-</form>
+    <img src="images/led_off.jpg" id="led1"onclick="ledd=true;red_led=true;red_led2=true;led_generate();"width="187" height="233" orgWidth="187" orgHeight="233">
+    <img src="images/yellow_led.png" id="yellow"onclick="ledd=true;yellow_led=true;yellow_led2=true;led_generate();"width="187" height="233" orgWidth="187" orgHeight="233">
+    <img src="images/buzzer.jpg" id="buzzer1"onclick="buzzer=true;buzzer_generate()"width="187" height="233" orgWidth="187" orgHeight="233">
+    <img src="images/ldr.jpg" id="ldr1"onclick="ldr=true;ldr_generate()"width="187" height="233" orgWidth="187" orgHeight="233">
+    <img src="images/motion_sensor.jpg" id="motion1"onclick="motion_sensor=true;motion_generate()"width="187" height="233" orgWidth="187" orgHeight="233">
+    <img src="images/buttonn.png" id="button_click"onclick="button=true;toggle();button_generate()"width="187" height="233" orgWidth="187" orgHeight="233">
+    <!-- <audio controls>
+     
+      <source src="old-fashioned-door-bell-daniel_simon.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio> -->
+  </form>
 </div>
 <div class="content"style="position:relative; ">
-    <img src="best.png" id="arduino" style="display:none">
+    <img src="images/best.png" id="arduino" style="display:none" >
     <!-- <canvas id="canvas" style="margin: 10px; background:white"></canvas> -->
-    <img src="blue_led.jfif" id="led"style="display:none">
-    <img src="breadboard_base.png" id="breadboard"style="display:none">
+    <!-- <img src="blue_led.jfif" id="led"style="display:none"> -->
+    <img src="images/breadboard_.png" id="breadboard_"style="display:none">
+    <img src="images/buzzer.jpg" id="buzzer"style="display:none">
+    <img src="images/ldr.jpg" id="ldr"style="display:none">
+    <img src="images/red_background.jpg" id="red"style="display:none">
+    <img src="images/motion_sensor.jpg" id="motion_sensor"style="display:none">
+    <img src="images/breadboard_trial1.png" id="breadboard"style="display:none">
+    <img src="images/thinking.jpg" id="thinking"style="display:none">
+    <img src="images/yellow_led.png" id="yellow"style="display:none">
+    <img src="images/buttonn.png" id="button1"style="display:none">
     <canvas id="c" width="500" height="500" style="z-index: 2;
     position:absolute;
     left:0px;
     top:0px;
     " height="300px" width="400" ></canvas>
-    <canvas id="d" width="500" height="500" style="z-index: 1;
+ <!-- <input id="lightt" type="button" name="light" onclick="toggle();" value="LIGHT"style="visibility:hidden"/> -->
+ <input id="press" type="button" name="press" onclick="button_pressed=!button_pressed;" value="PRESS ME"style="visibility:hidden"/>
+ <input id="press1" type="button" name="press" onclick="button_pressed=!button_pressed;" value="PRESS ME"style="visibility:hidden"/>
+ <input id="press2" type="button" name="press" onclick="button_pressed=!button_pressed;" value="PRESS ME"style="visibility:hidden"/>
+ <input id="press3" type="button" name="press" onclick="button_pressed=!button_pressed;" value="PRESS ME"style="visibility:hidden"/>
+ <input id="press4" type="button" name="press" onclick="button_pressed=!button_pressed;" value="PRESS ME"style="visibility:hidden"/>
+ 
+ <img id="led_off" src="images/led_off.jpg"style="display:none" border="0" width="187" height="233" orgWidth="187" orgHeight="233" usemap="#image-maps-2020-04-17-075249" alt="" />
+ <canvas id="d" width="500" height="500" style="z-index: 1;
     position:absolute;
     left:0px;
     top:0px;
-    "></canvas>
+    "> 
+    
+  
+  
+    <!-- <map name="image-maps-2020-04-17-075249" id="ImageMapsCom-image-maps-2020-04-17-075249">
+    <area  alt="" title=""  shape="rect" coords="91,200,125,224" style="outline:none;" target="_self" onclick="positive_led=true;alert(positive_led)";    />
+    <area  alt="" title=""  shape="rect" coords="75,158,94,194" style="outline:none;" target="_self" onclick="negative_led=true;"    />
+    <area shape="rect" coords="185,231,187,233" alt="Image Map" style="outline:none;" title="Image Map" href="http://www.image-maps.com/index.php?aff=mapped_users_0" />
+    </map> -->
+  
+  
+  
+  
+  
+  </canvas>
 
 
 
@@ -118,214 +197,167 @@
 
 
 </div>
-       
+<div class="column" >
+
+  <p>nn</p>
+</div>
+
+
 <script>
+  // document.getElementById("d").style.backgroundRepeat="no-repeat"
+  // var canvass = document.getElementById("c");
+  // canvass.width  = window.innerWidth;
+  // canvass.height = window.innerHeight;
+  var canvasd = document.getElementById("d");
+  
+  canvasd.width  = window.innerWidth;
+  // canvasd.height = window.innerHeight;
+  canvasd.height = 850;
+  //canvasd.style.background = "url(black.png)";
+var ctx = canvasd.getContext("2d");
+var img = document.getElementById("arduino");
+var img2 = document.getElementById("buzzer");
+var img3 = document.getElementById("breadboard");
+var img4 = document.getElementById("led_off");
+var img5 = document.getElementById("ldr");
+var img6 = document.getElementById("motion_sensor");
+var img7 = document.getElementById("thinking");
+var img8 = document.getElementById("yellow");
+var img9 = document.getElementById("button1");
+var img10 = document.getElementById("light");
+var img11=document.getElementById("breadboard_");
+ctx.drawImage(img, 100, 120,700,500);
+ctx.drawImage(img11, 150, 600,700,500);
+//ctx.drawImage(img3, 800, 120,300,300);
+//ctx.drawImage(img9, 170, 20,100,100);
+var led_pos=170;
+var button_pos=160;
+var button_counter=0;
+function button_generate()
+{
+  if(button_counter<5){
+    ctx.drawImage(img9, button_pos, 750,90,90);
+    button_pos+=130;
 
-var canvass = document.getElementById("c");
-
-canvass.width  = window.innerWidth;
-canvass.height = window.innerHeight;
- var canvasd = document.getElementById("d");
-
-canvasd.width  = window.innerWidth;
-canvasd.height = window.innerHeight;
- var ctx = canvasd.getContext("2d");
-  var img = document.getElementById("arduino");
-  var img2 = document.getElementById("led");
-  var img3 = document.getElementById("breadboard");
- 
-  ctx.drawImage(img, 100, 120,700,500);
-  ctx.drawImage(img2, 170, 20,100,100);
-  ctx.drawImage(img3, 900, 120,600,600);
-
-var pointcounter=0;
+  }
+  button_counter++;
+}
+function toggle() {
+    var buttonn = document.getElementById("press")
+    var button1 = document.getElementById("press1")
+    var button2 = document.getElementById("press2")
+    var button3 = document.getElementById("press3")
+    var button4 = document.getElementById("press4")
 
 
-
-var canvas = new fabric.Canvas('c', { selection: false });
-
-// img.onload = function() {
-//   var imgbase64 = new fabric.Image(img, {
-//     // width: 1000,
-//     //  height: 600
     
-//   })
-  // img.scaleToHeight(300);
-  // img.scaleToWidth(300);
-//   fabric.Image.fromURL('http://fabricjs.com/assets/pug_small.jpg', function(myImg) {
-//  canvas.add(myImg); 
-// });
-  // canvas.add(img);
-  //canvas.deactivateAll().renderAll();
+    console.log(button)
+    if(button)
+    {
+      switch(button_counter)
+      {
+        case 0:buttonn.style.visibility = 'visible';break;
+        case 1:button1.style.visibility = 'visible';break;
+        case 2:button2.style.visibility = 'visible';break;
+        case 3:button3.style.visibility = 'visible';break;
+        case 4:button4.style.visibility = 'visible';break;
+    
 
 
+      }
 
 
-var line, isDown;
-
-canvas.on('mouse:down', function(o){
-  isDown = true; pointcounter++;
-  console.log(pointcounter);
-  var pointer = canvas.getPointer(o.e);
-  var points = [ pointer.x, pointer.y, pointer.x, pointer.y ];
-  line = new fabric.Line(points, {
-    strokeWidth: 1,
-    fill: 'red',
-    stroke: 'red',
-    originX: 'center',
-    originY: 'center'
-  });
-  if(pointcounter<=3)
-  canvas.add(line);
-});
-
-canvas.on('mouse:move', function(o){
-  if (!isDown) return;
-  var pointer = canvas.getPointer(o.e);
-  line.set({ x2: pointer.x, y2: pointer.y });
-  canvas.renderAll();
-});
-
-canvas.on('mouse:up', function(o){
-  isDown = false;
-});
-// var ctx = canvasd.getContext("2d");
-//   var img = document.getElementById("arduino");
-//   var img2 = document.getElementById("led");
-//   var img3 = document.getElementById("breadboard");
+    }
  
-//   ctx.drawImage(img, 100, 120,700,500);
-//   ctx.drawImage(img2, 170, 20,100,100);
-//   ctx.drawImage(img3, 900, 120,600,600);
+  }
+function led_generate(){
+  // console.log(ledd);
+  // console.log(led_pos+130);
+  if(red_led2){
+
+    ctx.drawImage(img4, led_pos, 40,100,100);
+    red_led2=false;
+  }
+  else if(yellow_led2)
+  {
+    ctx.drawImage(img8, led_pos, 40,100,100);
+    yellow_led2=false;
+  }
+  led_pos+=130;
   
-  
-  
-//    arduino.width=500;
-//    arduino.height=500;
-//    breadboard.width=600;
-//    breadboard.height=600;
-//arduino.visibilty="hidden";
-
-
-//hna line drawing
-//    var canvas = document.getElementById("canvas");
-// var context = canvas.getContext("2d")
-// var context2 = canvas.getContext("2d")
-// var startX = 0;
-// var startY = 0;
-// var startX2 = 0;
-// var startY2 = 0;
-//   function drawDot(event) {
-//       if(dragging && pointcounter==1){
-//       context.clearRect(0,0,canvas.width, canvas.height)
-//       context.beginPath();
-//       context.moveTo(startX, startY);
-//       context.lineTo(event.offsetX, event.offsetY);
-//        context.arc(event.offsetX, event.offsetY,5, 0, Math.PI*2);
-//       context.stroke();
-//       context.closePath();
-//         }
-//         if(dragging && pointcounter==2){
-//       context2.clearRect(0,0,canvas.width, canvas.height)
-//       context2.beginPath();
-//       context2.moveTo(startX2, startY2);
-//       context2.lineTo(event.offsetX, event.offsetY);
-//        context2.arc(event.offsetX, event.offsetY,5, 0, Math.PI*2);
-//       context2.stroke();
-//       context2.closePath();
-//         }
-//     }
-
-//   function engage(event){
-//       pointcounter++;
-//       dragging = true;
-//       if(pointcounter==1){
-//       startX = event.offsetX;
-//       startY = event.offsetY;
-//       }
-//       if(pointcounter==2){
-//         startX2 = event.offsetX;
-//       startY2 = event.offsetY;
-//       }
-
-//   }
-
-//   function disengage(){
-//       dragging = false;
-      
-//   }
-  //end
-  //   var c = document.getElementById("canvas");
-  //};
-         //window.onload = function() {
-
- // canvas.add(img);
-
-         //};
-// canvas.addEventListener("mousedown",engage);
-// canvas.addEventListener("mouseup",disengage);
-// canvas.addEventListener("mousemove",drawDot,false);
-
-
+  };
+  // var snd = new Audio("old-fashioned-door-bell-daniel_simon.mp3");
+  function buzzer_generate(){
+    //console.log(led_pos+130);
+    
+    ctx.drawImage(img2, led_pos,40,100,100);
+    // snd.play();
+    led_pos+=130;
  
-//   var scene = new THREE.Scene();
+}
+function ldr_generate(){
+    
+    
+    ctx.drawImage(img5, led_pos,40,100,100);
+    // img10.style.top=130;
+    // img10.style.left=150;
+    // document.appendChild(img10);
+    //document.body.add(img10);
+    //ctx.drawImage(img10, 0,40,100,100);
+//     myButton = document.createElement("input");
+// myButton.type = "button";
+// myButton.value = "my button";
+// placeHolder = document.getElementById("light");
+// placeHolder.appendChild(myButton);
+    led_pos+=130;
+ 
+}
+function motion_generate(){
+ 
+    
+    ctx.drawImage(img6, led_pos,40,100,100);
+   
+    led_pos+=130;
+ 
+}
+function showCoords(event) {
+  var x = event.clientX;
+  var y = event.clientY;
+  var coords = "X coords: " + x + ", Y coords: " + y;
+  console.log(x);
+  //document.getElementById("demo").innerHTML = coords;
+}
+function motion2(){
+}
 
-// var camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000)
-// camera.rotation.y=45/180*Math.PI;
-// camera.position.x=800;
-// camera.position.y=100;
-// camera.position.z = 1000;
+function motion_on(){
+  requestAnimationFrame(motion_on);
+  ctx.clearRect(0,0,4000,40);
+  if(think)
+  {
+    x_object+=0.5;
+    //console.log("ddd");
+    ctx.drawImage(img7, x_object,0,40,40);
+  }
+  if(motion_sensor)
+  {
+    
+if(x_object>=145 && x_object<200){
+   inrange_motionsensor=true;
+  // if(conn1 && conn2 && conn3 )
+  // console.log("inrange");
 
-// var renderer = new THREE.WebGLRenderer({antialias: true});
-// renderer.setClearColor("#e5e5e5");
-// renderer.setSize(window.innerWidth,window.innerHeight);
-// document.body.appendChild(renderer.domElement);
-//  hlight = new THREE.AmbientLight(0x404040,100)
-// //light.position.set(0,0,0);
-// scene.add(hlight);
-//  directionalLight = new THREE.DirectionalLight(0xffffff,100);
-// directionalLight.position.set(0,1,0);
-// directionalLight.castShadow=true;
-// scene.add(directionalLight);
-
-// light= new THREE.PointLight(0xc4c4c4,10);
-// light.position.set(0,300,500);
-// scene.add(light);
-
-// light2= new THREE.PointLight(0xc4c4c4,10);
-// light2.position.set(500,100,0);
-// scene.add(light2);
-
-// light3= new THREE.PointLight(0xc4c4c4,10);
-// light3.position.set(0,100,-500);
-// scene.add(light3);
-
-// light3= new THREE.PointLight(0xc4c4c4,10);
-// light3.position.set(-500,300,0);
-// scene.add(light3);
+    }
+    else{
+    inrange_motionsensor=false;
+    }
+  }
 
 
-
-// var render = function() {
-//     requestAnimationFrame(render);
-
-
-//     renderer.render(scene, camera);
-// }
-// //render.physicallyCorrectLights=true;
-//let loader = new THREE.GLTFLoader();
-// loader.load('scene.gltf', function(gltf){
-//   //car = gltf.scene.children[0];
-//   //car.scale.set(0.5,0.5,0.5);
-//   scene.add(gltf.scene);
-//   //animate();
-// });
+   
+}
 
 
-
-
-
-//render();
     </script>
 
 </body>

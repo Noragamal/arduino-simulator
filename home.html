@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Arduino Simulator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body, html {
+  height: 100%;
+  margin: 0;
+}
+.bg-text {
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-weight: bold;
+  font-size: 60px;
+  /* border: 10px solid #f1f1f1; */
+  position: fixed; /* Stay fixed */
+  top: 0%;
+  left: 100%;
+  transform: translate(-70% , -90%);
+  z-index: 2;
+  width: 700px;
+  padding: 20px;
+  text-align: center;
+}
+body {
+  /* The image used */
+  background-image: url("images/back3.png");
+
+  /* Full height */
+  height: 100%; 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.button {
+  border-radius: 4px;
+  background-color: blue;
+  display: block;
+  margin: 30px;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  /* margin: 100px; */
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+</style>
+</head>
+<body>
+    <div class="center">
+        <a href="tutorial.html"button class="button"><span>Tutorial </span></button>
+    <a href="simulate.html"button class="button"><span>Simulate </span></button>
+   
+
+    <div class="bg-text">Arduino Simulator</div>
+
+</body>
+</html>
