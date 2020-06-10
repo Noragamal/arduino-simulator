@@ -4,7 +4,6 @@
   "description": "node app",
   "main": "app.js",
   "dependencies": {
-    "fritzing-parts-api-client-js": "^0.2.1",
     "requirejs": "^2.3.6"
   },
   "devDependencies": {},
